@@ -1,5 +1,6 @@
 import { showForm, hideOverlay, showOverlay } from "./forms.js";
 import { createDeleteButton, createEditButton } from "./buttons.js";
+import { storage, storageAvailable } from "./storage.js";
 
 const toDoForm = document.getElementById("toDoForm");
 const editToDoForm = document.getElementById("editToDoForm");
@@ -12,7 +13,8 @@ const TableBody = document.querySelector(".tableBody");
 const toDoIDElement = document.getElementById("toDoID");
 const seeAllToDos = document.getElementById("seeAllToDos");
 
-let toDos = [];
+let toDos = initToDoData();
+console.log(toDos);
 
 class toDo {
   constructor(name, project, deadline, priority, status) {
@@ -47,6 +49,7 @@ function addToDo(toDoData) {
 }
 
 function renderToDo(filter = null) {
+  uploadToDoData();
   TableBody.innerHTML = `
           
         <tr>
@@ -145,6 +148,31 @@ function initToDoForms() {
     renderToDo();
     console.log(toDos);
   });
+  renderToDo();
+}
+function initToDoData() {
+  if (storageAvailable("localStorage")) {
+    let storage = window.localStorage;
+
+    let toDoData = storage.getItem("toDos")
+      ? JSON.parse(storage.getItem("toDos"))
+      : [];
+
+    return toDoData;
+  }
+
+  return [];
+}
+
+function uploadToDoData() {
+  if (storageAvailable("localStorage")) {
+    let storage = window.localStorage;
+
+    let Data_serialized = JSON.stringify(toDos);
+
+    storage.removeItem("toDos");
+    storage.setItem("toDos", Data_serialized);
+  }
 }
 
 export { toDos, initToDoForms, renderToDo };

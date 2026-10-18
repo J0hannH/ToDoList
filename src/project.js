@@ -5,6 +5,7 @@ import {
   setTransitionDelay,
 } from "./buttons.js";
 import { renderToDo } from "./toDo.js";
+import { storage, storageAvailable } from "./storage.js";
 import deleteImageSRC from "../Images/icons8-löschen-50.png";
 import deleteGifSRC from "../Images/icons8-löschen.gif";
 import editImageSRC from "../Images/icons8-neu-erstellen-64.png";
@@ -16,28 +17,27 @@ const projectButton = document.getElementById("createProjectButton");
 const projectContainer = document.getElementById("projectContainer");
 const projectNameProjectForm = document.getElementById("editProjectName");
 const projectIDFormE = document.getElementById("projectID");
-let projects = [];
-let renderToDoBOOL = false;
+
+let projects = initProjectData();
 
 class project {
   constructor(name) {
     this.projectID = crypto.randomUUID();
     this.name = name;
   }
-  editProject(element) {
-    showOverlay();
-    showForm(editProjectForm);
-    projectNameProjectForm.value = element.name;
-    projectIDFormE.value = element.projectID;
-  }
-  deleteProject(project) {
-    projects.forEach((element, index) => {
-      element.projectID === project.projectID
-        ? projects.splice(index, 1)
-        : null;
-    });
-    renderProjects();
-  }
+}
+
+function editProject(element) {
+  showOverlay();
+  showForm(editProjectForm);
+  projectNameProjectForm.value = element.name;
+  projectIDFormE.value = element.projectID;
+}
+function deleteProject(project) {
+  projects.forEach((element, index) => {
+    element.projectID === project.projectID ? projects.splice(index, 1) : null;
+  });
+  renderProjects();
 }
 
 function addProject(projectData) {
@@ -71,6 +71,7 @@ function initProjectList() {
 }
 
 function renderProjects() {
+  uploadProjectData();
   initProjectList();
 
   projectContainer.innerHTML = "";
@@ -152,6 +153,36 @@ function initProjectForms() {
     showForm(projectForm);
     showOverlay();
   });
+  renderProjects();
+}
+
+function initProjectData() {
+  if (storageAvailable("localStorage")) {
+    let storage = window.localStorage;
+
+    let projectData = storage.getItem("projects")
+      ? JSON.parse(storage.getItem("projects"))
+      : [];
+
+    projectData.forEach((element) => {
+      Object.setPrototypeOf(element, { editProject, deleteProject });
+    });
+
+    return projectData;
+  }
+
+  return [];
+}
+
+function uploadProjectData() {
+  if (storageAvailable("localStorage")) {
+    let storage = window.localStorage;
+
+    let Data_serialized = JSON.stringify(projects);
+
+    storage.removeItem("projects");
+    storage.setItem("projects", Data_serialized);
+  }
 }
 
 export { projects, initProjectList, initProjectForms };
