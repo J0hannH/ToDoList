@@ -25,17 +25,18 @@ class toDo {
     this.status = status;
     this.toDoID = crypto.randomUUID();
   }
-  editToDo() {
-    showOverlay();
-    showForm(editToDoForm);
-
-    toDoFormElement.value = this.name;
-    projectFormElement.forEach((element) => (element.value = this.project));
-    deadlineFormElement.value = this.deadline;
-    priorityFormElement.value = this.priority;
-    toDoIDElement.value = this.toDoID;
-  }
 }
+function editToDo() {
+  showOverlay();
+  showForm(editToDoForm);
+
+  toDoFormElement.value = this.name;
+  projectFormElement.forEach((element) => (element.value = this.project));
+  deadlineFormElement.value = this.deadline;
+  priorityFormElement.value = this.priority;
+  toDoIDElement.value = this.toDoID;
+}
+
 function addToDo(toDoData) {
   const newToDo = new toDo(
     toDoData.toDo,
@@ -44,6 +45,7 @@ function addToDo(toDoData) {
     toDoData.prio,
     toDoData.status,
   );
+  Object.setPrototypeOf(newToDo, { editToDo });
   toDos.push(newToDo);
   renderToDo();
 }
@@ -157,6 +159,10 @@ function initToDoData() {
     let toDoData = storage.getItem("toDos")
       ? JSON.parse(storage.getItem("toDos"))
       : [];
+
+    toDoData.forEach((toDo) => {
+      Object.setPrototypeOf(toDo, { editToDo });
+    });
 
     return toDoData;
   }

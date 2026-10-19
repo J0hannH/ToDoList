@@ -1,6 +1,6 @@
 import "./styles.css";
 import { projects, initProjectList, initProjectForms } from "./project.js";
-import { toDos, initToDoForms, renderToDo, initToDoData } from "./toDo.js";
+import { toDos, initToDoForms, renderToDo } from "./toDo.js";
 import { showForm, hideOverlay, showOverlay } from "./forms.js";
 import {
   createDeleteButton,

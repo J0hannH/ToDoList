@@ -43,6 +43,7 @@ function deleteProject(project) {
 function addProject(projectData) {
   console.log(projectData.projectName);
   const newProject = new project(projectData.projectName);
+  Object.setPrototypeOf(newProject, { editProject, deleteProject });
   projects.push(newProject);
   renderProjects();
 }
