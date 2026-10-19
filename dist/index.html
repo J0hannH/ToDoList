@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  <script defer src="main.js"></script></head>
+  <body>
+    <header>
+      <img
+        src="c0c56230360d1aa5cacd.png"
+        alt=""
+        class="static-gif logo"
+      />
+      <img src="adbad41c2d1fdad82e8a.gif" alt="" />
+
+      <h1>To Do List</h1>
+    </header>
+    <main>
+      <div id="projects">
+        <h1>Projects</h1>
+        <button id="createProjectButton">Create Project</button>
+        <button id="seeAllToDos">See All</button>
+        <div id="projectContainer"></div>
+      </div>
+      <div id="toDoLists">
+        <div>
+          <table class="toDoTable">
+            <colgroup>
+              <col class="nameT" />
+              <col class="projectT" />
+              <col class="deadlineT" />
+              <col class="prioT" />
+              <col class="StatusT" />
+            </colgroup>
+            <tbody class="tableBody">
+              <tr>
+                <th>Name</th>
+                <th>Project</th>
+                <th>Deadline</th>
+                <th>Prio</th>
+                <th>Status</th>
+              </tr>
+            </tbody>
+          </table>
+          <button class="addToDo">Add ToDo</button>
+        </div>
+      </div>
+    </main>
+
+    <div class="overlay">
+      <div class="modal">
+        <form action="post" id="toDoForm">
+          <div>
+            <label for="toDo">ToDo:</label>
+            <input type="text" id="toDo" name="toDo" required />
+          </div>
+          <div>
+            <label for="projectNameID">Project:</label>
+            <select
+              name="project"
+              class="projectName"
+              id="projectNameID"
+            ></select>
+          </div>
+          <div>
+            <label for="deadline">Deadline:</label>
+            <input type="date" id="deadline" name="deadline" required />
+          </div>
+          <div>
+            <label for="prio">
+              Priorität:
+              <span class="rangeValue">5</span>
+            </label>
+            <input
+              type="range"
+              id="prio"
+              name="prio"
+              min="1"
+              max="10"
+              step="1"
+              value="5"
+            />
+          </div>
+
+          <button type="submit">Submit</button>
+        </form>
+        <form action="post" id="editToDoForm">
+          <div>
+            <label for="editToDo">ToDo:</label>
+            <input type="text" id="editToDo" name="editToDo" required />
+          </div>
+          <div>
+            <label for="editProject">Project:</label>
+            <select
+              id="editProject"
+              name="editProject"
+              class="projectName"
+            ></select>
+          </div>
+          <div>
+            <label for="editDeadline">Deadline:</label>
+            <input type="date" id="editDeadline" name="editDeadline" required />
+          </div>
+          <div>
+            <label for="editPrio">
+              Priorität:
+              <span class="rangeValue">5</span>
+            </label>
+            <input
+              type="range"
+              id="editPrio"
+              name="editPrio"
+              min="1"
+              max="10"
+              step="1"
+              value="5"
+            />
+          </div>
+          <input type="hidden" name="toDoID" id="toDoID" value="" />
+          <button type="submit">Submit</button>
+        </form>
+        <form action="post" id="projectForm">
+          <div>
+            <label for="projectName">Name of Project</label>
+            <input type="text" id="projectName" name="projectName" required />
+          </div>
+          <button type="submit">Submit</button>
+        </form>
+        <form action="post" id="editProjectForm">
+          <div>
+            <label for="editProjectName">Name of Project</label>
+            <input
+              type="text"
+              id="editProjectName"
+              name="editProjectName"
+              required
+            />
+          </div>
+          <input type="hidden" name="projectID" id="projectID" value="" />
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
